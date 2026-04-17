@@ -40,6 +40,7 @@ public interface GameWriteable extends Game {
                         newFile += line + "\n";
                     }
                 }
+                myReader.close();
                 // replace the Game's line with the new high score
                 // puts it at the end of the file
                 newFile += getGameName() + "," + score + "\n";
@@ -66,8 +67,10 @@ public interface GameWriteable extends Game {
                     continue;
                 }
                 highScore = data[1];
+                myReader.close();
                 break;
             }
+            myReader.close();
         } catch (FileNotFoundException e) {
             try {
                 highscoreFile.createNewFile();

@@ -8,6 +8,16 @@ import java.util.Scanner;
 
 public class Quiz {
         static Scanner sc = new Scanner(System.in);
+        private static int latestScore = 0;
+        private static Runnable roundCompleteHook;
+
+        public static int getLatestScore() {
+                return latestScore;
+        }
+
+        public static void setRoundCompleteHook(Runnable hook) {
+                roundCompleteHook = hook;
+        }
 
         public static void main(String[] args) throws Exception {
                 FileSave fileSave = new FileSave();
@@ -149,6 +159,10 @@ public class Quiz {
                 System.out.println("If you were a lead character from Breaking Bad, you would be " + cList[index].label
                                 + ". ");
                 System.out.println(cList[index].description);
+                latestScore = cList[index].points;
+                if (roundCompleteHook != null) {
+                        roundCompleteHook.run();
+                }
                 fileSave.incrementCategoryCount(cList[index].label);
                 lastSave.updateResult("mostRecentCategory", cList[index].label);
                 } while (gameConclusion());
